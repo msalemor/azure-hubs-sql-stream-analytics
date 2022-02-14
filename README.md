@@ -1,4 +1,4 @@
-# Demo of Azure integration with Event Hubs, Azure SQL and Azure Stream Analytics
+# Demo of Azure integration with Event Hubs, Azure Stream Analytics, and Azure SQL
 
 ## Problem Statement
 
@@ -12,7 +12,7 @@ Azure Stream Analytics offers functionaltiy to be able to read the messages from
 
 ![Solution Diagram](images/Architecture-Hubs-Stream-Sql.png)
 
-## Deployment
+## IaaS Environment Deployment
 
 [Bicep template](deployment/main.bicep)
 
@@ -120,10 +120,9 @@ else
     throw new ApplicationException("Unable to create message");
 ```
 
-
 ### Azure SQL
 
-#### Table
+#### Table Definitions
 
 ```sql
 create table ACMessages
