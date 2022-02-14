@@ -13,4 +13,3 @@
 ## Tables
 
 ## Stream Analytics Job
-
