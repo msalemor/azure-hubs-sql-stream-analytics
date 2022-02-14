@@ -172,6 +172,8 @@ Azure SQL Tables:
 
 #### Jobs
 
+> Note: One Stream Analytic jobs instance can process many jobs
+
 ```
 select a.deviceId,a.ts,a.hertz,a.amps,a.voltage,a.gasPercentage
   into [hubdb-GeneratorMessages] from [hub-ecloud1-location1] a 
