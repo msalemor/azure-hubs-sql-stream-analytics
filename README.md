@@ -170,9 +170,9 @@ Azure SQL Tables:
 - GeneratorMessages
 - MotorMessages
 
-#### Jobs
+#### Stream Analytics Jobs
 
-> Note: One Stream Analytic jobs instance can process many jobs
+> Note: One Stream Analytic jobs instance can process many jobs. The Stream Analytics query language can perform time based operations, aggregations, etc.
 
 ```
 select a.deviceId,a.ts,a.hertz,a.amps,a.voltage,a.gasPercentage
