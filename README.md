@@ -2,13 +2,19 @@
 
 ## Problem Statement
 
-A customer is sending messages of different types and wants to have a process by which he can save this messages to different tables.
+A customer is sending messages of different types to Event Hubs and wants to save these messages to Azure SQL tables without having to write custom code.
+
+## Solution with Stream Analytics
+
+Azure Stream Analytics offers functionaltiy to be able to read the messages from Event Hubs, filter them, process them and saving them to different destinations including Azure SQL tables.
 
 ## Solution Diagram
 
+![Solution Diagram](images/Architecture-Hubs-Stream-Sql.png)
+
 ## Deployment
 
-Bicep template
+[Bicep template](deployment/main.bicep)
 
 ## Services
 
