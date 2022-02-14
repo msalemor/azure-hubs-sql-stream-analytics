@@ -14,9 +14,23 @@ Bicep template
 
 ### Message Generator
 
+For the purposes of this demo, the generator code has been implemented using Azure Functions with .NET Core 3.
+
 #### Classes
 
 ```c#
+public class BaseMessage
+{
+    public BaseMessage()
+    {
+        Ts = DateTime.UtcNow;
+    }
+
+    public string DeviceId { get; set; }
+    public string Type { get; set; }
+    public DateTime Ts { get; set; }
+}
+
 public class ACMessage : BaseMessage
 {
     public ACMessage()
