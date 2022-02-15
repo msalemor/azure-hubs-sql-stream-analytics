@@ -12,17 +12,17 @@ Azure Stream Analytics offers functionaltiy to be able to read the messages from
 
 ![Solution Diagram](images/Architecture-Hubs-Stream-Sql.png)
 
-## IaaS Environment Deployment
+## IaaS Deployment
 
 [Bicep template](deployment/main.bicep)
 
 ## Services
 
-### Message Generator
+### Events Generator
 
 For the purposes of this demo, the generator code has been implemented using Azure Functions with .NET Core 3.
 
-#### Classes
+#### Event Classes
 
 ```c#
 public class BaseEvent
@@ -72,7 +72,7 @@ public class MotorEvent : BaseEvent
 }
 ```
 
-#### Emmiting Messages with Event Hubs
+#### Emmiting Events to Event Hubs
 
 ```c#
 var rn = (new Random());
