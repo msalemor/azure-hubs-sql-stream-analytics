@@ -174,17 +174,17 @@ Azure SQL Tables:
 > Note: One Stream Analytic jobs instance can process many jobs. The Stream Analytics query language can perform time based operations, aggregations, etc.
 
 ```
+select a.deviceId,a.ts,a.coolantTemperature,a.airFlow,a.airTemperature
+  into [hubdb-ACEvents] from [hub-ecloud1-location1] a 
+  where type='ACEvent'
+
 select a.deviceId,a.ts,a.hertz,a.amps,a.voltage,a.gasPercentage
-  into [hubdb-GeneratorMessages] from [hub-ecloud1-location1] a 
+  into [hubdb-GeneratorEvents] from [hub-ecloud1-location1] a 
   where type='GeneratorEvent'
   
 select a.deviceId,a.ts,a.temperature,a.revolutions
-  into [hubdb-MotorMessages] from [hub-ecloud1-location1] a 
+  into [hubdb-MotorEvents] from [hub-ecloud1-location1] a 
   where type='MotorEvent'
-  
-select a.deviceId,a.ts,a.coolantTemperature,a.airFlow,a.airTemperature
-  into [hubdb-ACMessages] from [hub-ecloud1-location1] a 
-  where type='ACEvent'
 ```` 
 
 
