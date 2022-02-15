@@ -1,10 +1,10 @@
 ﻿namespace Domain.Common.Models
 {
-    public class ACMessage : BaseMessage
+    public class ACMessage : BaseEvent
     {
-        public ACMessage()
+        public ACEvent()
         {
-            Type = typeof(ACMessage).Name;
+            Type = typeof(ACEvent).Name;
         }
         public float CoolantTemperature { get; set; }
         public float AirFlow { get; set; }
