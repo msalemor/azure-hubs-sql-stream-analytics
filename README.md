@@ -6,7 +6,7 @@ A customer is sending messages of different types to Event Hubs and wants to sav
 
 ## Solution with Stream Analytics
 
-Azure Stream Analytics offers functionaltiy to be able to read the messages from Event Hubs, filter them, process them and saving them to different destinations including Azure SQL tables.
+Azure Stream Analytics offers functionaltiy to be able to read the messages from Event Hubs, filter them, process them and save them to different destinations including Azure SQL tables.
 
 ## Solution Diagram
 
