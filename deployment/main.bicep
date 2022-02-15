@@ -1,11 +1,11 @@
 param location string = resourceGroup().location
 param db_admin string = 'dbadmin'
-param db_pwd string = 'Fuerte#123456'
-param domain string = 'ecloud'
-param env string = 'demo'
+param db_pwd string =  'Fuerte#123456'
+param domain string = 'alestream'
+param env string = 'qa'
 param short_loc string = 'eus'
 
-
+// restype-domain-environment-location-instance#
 var hubs_namespace_name = 'hubs-${domain}-${env}-${short_loc}'
 var hub_name = 'hub-${domain}-location1'
 var streaming_job_name = 'stream-${domain}-${env}-${short_loc}'
@@ -201,14 +201,14 @@ resource streamingjobs_input_alias 'Microsoft.StreamAnalytics/streamingjobs/inpu
 
 resource streamingjobs_output_MotorMessages_alias 'Microsoft.StreamAnalytics/streamingjobs/outputs@2021-10-01-preview' = {
   parent: streamingjobs_motormessages_name_resource
-  name: '${db_name}-MotorMessages'
+  name: '${db_name}-MotorEvents'
   properties: {
     datasource: {
       type: 'Microsoft.Sql/Server/Database'
       properties: {
         maxWriterCount: 1
         maxBatchCount: 10000
-        table: 'MotorMessages'
+        table: 'MotorEvents'
         server: sql_server_resource.name
         database: sqldb_resource.name
         user: db_admin
@@ -221,7 +221,7 @@ resource streamingjobs_output_MotorMessages_alias 'Microsoft.StreamAnalytics/str
 
 resource streamingjobs_output_ACMessages_alias 'Microsoft.StreamAnalytics/streamingjobs/outputs@2021-10-01-preview' = {
   parent: streamingjobs_motormessages_name_resource
-  name: '${db_name}-ACMessages'
+  name: '${db_name}-ACEvents'
   properties: {
     datasource: {
       type: 'Microsoft.Sql/Server/Database'
@@ -241,14 +241,14 @@ resource streamingjobs_output_ACMessages_alias 'Microsoft.StreamAnalytics/stream
 
 resource streamingjobs_output_GeneratorMessages_alias 'Microsoft.StreamAnalytics/streamingjobs/outputs@2021-10-01-preview' = {
   parent: streamingjobs_motormessages_name_resource
-  name: '${db_name}-GeneratorMessages'
+  name: '${db_name}-GeneratorEvents'
   properties: {
     datasource: {
       type: 'Microsoft.Sql/Server/Database'
       properties: {
         maxWriterCount: 1
         maxBatchCount: 10000
-        table: 'GeneratorMessages'
+        table: 'GeneratorEvents'
         server: sql_server_resource.name
         database: sqldb_resource.name
         user: db_admin
