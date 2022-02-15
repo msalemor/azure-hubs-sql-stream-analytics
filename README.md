@@ -27,7 +27,7 @@ For the purposes of this demo, the generator code has been implemented using Azu
 ```c#
 public class BaseMessage
 {
-    public BaseMessage()
+    public BaseEvent()
     {
         Ts = DateTime.UtcNow;
     }
@@ -37,7 +37,7 @@ public class BaseMessage
     public DateTime Ts { get; set; }
 }
 
-public class ACMessage : BaseMessage
+public class ACEvent : BaseEvent
 {
     public ACMessage()
     {
@@ -48,11 +48,11 @@ public class ACMessage : BaseMessage
     public float AirTemperature { get; set; }
 }
 
-public class GeneratorMessage : BaseMessage
+public class GeneratorEvent : BaseEvent
 {
-    public GeneratorMessage()
+    public GeneratorEvent()
     {
-        Type = typeof(GeneratorMessage).Name;
+        Type = typeof(GeneratorEvent).Name;
     }
     public float Hertz { get; set; }
     public float Amps { get; set; }
@@ -61,11 +61,11 @@ public class GeneratorMessage : BaseMessage
 
 }
 
-public class MotorMessage : BaseMessage
+public class MotorEvent : BaseEvent
 {
-    public MotorMessage()
+    public MotorEvent()
     {
-        Type = typeof(MotorMessage).Name;            
+        Type = typeof(MotorEvent).Name;            
     }
     public float Temperature { get; set; }
     public float Revolutions { get; set; }
@@ -125,7 +125,7 @@ else
 #### Table Definitions
 
 ```sql
-create table ACMessages
+create table ACEvents
 (
   Id int not null primary key identity,
   DeviceId varchar(10) not null,
@@ -135,7 +135,7 @@ create table ACMessages
   AirTemperature float not null
 )
 
-create table GeneratorMessages
+create table GeneratorEvents
 (
   Id int not null primary key identity,
   DeviceId varchar(10) not null,
@@ -146,7 +146,7 @@ create table GeneratorMessages
   GasPercentage float not null
 )
 
-create table MotorMessages
+create table MotorEvents
 (
   Id int not null primary key identity,
   DeviceId varchar(10) not null,
