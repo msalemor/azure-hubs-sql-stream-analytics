@@ -25,7 +25,7 @@ For the purposes of this demo, the generator code has been implemented using Azu
 #### Classes
 
 ```c#
-public class BaseMessage
+public class BaseEvent
 {
     public BaseEvent()
     {
@@ -90,16 +90,16 @@ object obj = null;
 
 if (rnd == 1)
 {
-    obj = new MotorMessage { DeviceId = "1X100M", Revolutions = revolutions, Temperature = temperature };
+    obj = new MotorEvent { DeviceId = "1X100M", Revolutions = revolutions, Temperature = temperature };
 }
 else if (rnd == 2)
 {
 
-    obj = new ACMessage { DeviceId = "2X100AC", CoolantTemperature=temperature, AirFlow=airFlow, AirTemperature=airTemperature};
+    obj = new ACEvent { DeviceId = "2X100AC", CoolantTemperature=temperature, AirFlow=airFlow, AirTemperature=airTemperature};
 }
 else
 {
-    obj = new GeneratorMessage { DeviceId = "3X100G", Hertz=hertz, Amps=amps, Voltage= voltage, GasPercentage= gasPercentage };
+    obj = new GeneratorEvent { DeviceId = "3X100G", Hertz=hertz, Amps=amps, Voltage= voltage, GasPercentage= gasPercentage };
 }
 
 // 
@@ -176,15 +176,15 @@ Azure SQL Tables:
 ```
 select a.deviceId,a.ts,a.hertz,a.amps,a.voltage,a.gasPercentage
   into [hubdb-GeneratorMessages] from [hub-ecloud1-location1] a 
-  where type='GeneratorMessage'
+  where type='GeneratorEvent'
   
 select a.deviceId,a.ts,a.temperature,a.revolutions
   into [hubdb-MotorMessages] from [hub-ecloud1-location1] a 
-  where type='MotorMessage'
+  where type='MotorEvent'
   
 select a.deviceId,a.ts,a.coolantTemperature,a.airFlow,a.airTemperature
   into [hubdb-ACMessages] from [hub-ecloud1-location1] a 
-  where type='ACMessage'
+  where type='ACEvent'
 ```` 
 
 
