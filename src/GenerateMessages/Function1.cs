@@ -38,30 +38,37 @@ namespace GenerateMessages
 
                 if (rnd == 1)
                 {
-                    obj = new MotorMessage { DeviceId = "1X100M", Revolutions = revolutions, Temperature = temperature };
+                    obj = new MotorEvent { DeviceId = "1X100M", Revolutions = revolutions, Temperature = temperature };
                 }
                 else if (rnd == 2)
                 {
                     
-                    obj = new ACMessage { DeviceId = "2X100AC", CoolantTemperature=temperature, AirFlow=airFlow, AirTemperature=airTemperature};
+                    obj = new ACEvent { DeviceId = "2X100AC", CoolantTemperature=temperature, AirFlow=airFlow, AirTemperature=airTemperature};
                 }
                 else
                 {
-                    obj = new GeneratorMessage { DeviceId = "3X100G", Hertz=hertz, Amps=amps, Voltage= voltage, GasPercentage= gasPercentage };
+                    obj = new GeneratorEvent { DeviceId = "3X100G", Hertz=hertz, Amps=amps, Voltage= voltage, GasPercentage= gasPercentage };
                 }
 
-                // 
+                // Camel case serialization
                 var options = new JsonSerializerOptions
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 };
+
+                // Serialize into json
                 string jsonString = JsonSerializer.Serialize(obj,options);
+
                 log.LogInformation($"Message: {jsonString}");
+
+
                 // Create a producer client that you can use to send events to an event hub
                 producerClient = new EventHubProducerClient(ConnectionString);
 
                 // Create a batch of events 
                 EventDataBatch eventBatch = await producerClient.CreateBatchAsync();
+
+                // Emmit the message to Event Hubs
                 if (eventBatch.TryAdd(new EventData(Encoding.UTF8.GetBytes(jsonString))))
                     await producerClient.SendAsync(eventBatch);
                 else

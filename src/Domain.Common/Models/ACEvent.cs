@@ -1,6 +1,6 @@
 ﻿namespace Domain.Common.Models
 {
-    public class ACMessage : BaseEvent
+    public class ACEvent : BaseEvent
     {
         public ACEvent()
         {

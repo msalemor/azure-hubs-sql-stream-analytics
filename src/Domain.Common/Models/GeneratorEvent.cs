@@ -1,11 +1,11 @@
 ﻿namespace Domain.Common.Models
 {
 
-    public class GeneratorMessage : BaseMessage
+    public class GeneratorEvent : BaseEvent
     {
-        public GeneratorMessage()
+        public GeneratorEvent()
         {
-            Type = typeof(GeneratorMessage).Name;
+            Type = typeof(GeneratorEvent).Name;
         }
         public float Hertz { get; set; }
         public float Amps { get; set; }

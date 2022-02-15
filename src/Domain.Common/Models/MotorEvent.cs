@@ -2,11 +2,11 @@
 
 namespace Domain.Common.Models
 {
-    public class MotorMessage : BaseMessage
+    public class MotorEvent : BaseEvent
     {
-        public MotorMessage()
+        public MotorEvent()
         {
-            Type = typeof(MotorMessage).Name;            
+            Type = typeof(MotorEvent).Name;            
         }
         public float Temperature { get; set; }
         public float Revolutions { get; set; }
