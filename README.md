@@ -158,13 +158,16 @@ create table MotorEvents
 
 ### Stream Analytics Setup
 
-#### Input
+#### Event Hubs Input
 
-Azure Hubs
+- Azure Hubs [hub-ecloud1-location1]
+  - Hub [hub-location1]
+    - Consumer group [hub_location1_cg]
 
-#### Output
+#### SQL Output
 
 Azure SQL Tables:
+
 - ACMessages
 - GeneratorMessages
 - MotorMessages
