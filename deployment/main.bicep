@@ -1,8 +1,8 @@
 param location string = resourceGroup().location
 param db_admin string = 'dbadmin'
 param db_pwd string =  'Fuerte#123456'
-param domain string = 'alestream'
-param env string = 'qa'
+param domain string = 'alemorhubs'
+param env string = 'demo'
 param short_loc string = 'eus'
 
 // restype-domain-environment-location-instance#
@@ -150,7 +150,7 @@ resource sql_Server_ClientIp_2022_2_12_15_21_5 'Microsoft.Sql/servers/firewallRu
 }
 
 // Stream Analytics
-resource streamingjobs_motormessages_name_resource 'Microsoft.StreamAnalytics/streamingjobs@2021-10-01-preview' = {
+resource streamingjobs_name_resource 'Microsoft.StreamAnalytics/streamingjobs@2021-10-01-preview' = {
   name: streaming_job_name
   location: location
   properties: {
@@ -172,7 +172,7 @@ resource streamingjobs_motormessages_name_resource 'Microsoft.StreamAnalytics/st
 }
 
 resource streamingjobs_input_alias 'Microsoft.StreamAnalytics/streamingjobs/inputs@2021-10-01-preview' = {
-  parent: streamingjobs_motormessages_name_resource
+  parent: streamingjobs_name_resource
   name: hub_name
   properties: {
     type: 'Stream'
@@ -200,7 +200,7 @@ resource streamingjobs_input_alias 'Microsoft.StreamAnalytics/streamingjobs/inpu
 }
 
 resource streamingjobs_output_MotorMessages_alias 'Microsoft.StreamAnalytics/streamingjobs/outputs@2021-10-01-preview' = {
-  parent: streamingjobs_motormessages_name_resource
+  parent: streamingjobs_name_resource
   name: '${db_name}-MotorEvents'
   properties: {
     datasource: {
@@ -220,7 +220,7 @@ resource streamingjobs_output_MotorMessages_alias 'Microsoft.StreamAnalytics/str
 }
 
 resource streamingjobs_output_ACMessages_alias 'Microsoft.StreamAnalytics/streamingjobs/outputs@2021-10-01-preview' = {
-  parent: streamingjobs_motormessages_name_resource
+  parent: streamingjobs_name_resource
   name: '${db_name}-ACEvents'
   properties: {
     datasource: {
@@ -228,7 +228,7 @@ resource streamingjobs_output_ACMessages_alias 'Microsoft.StreamAnalytics/stream
       properties: {
         maxWriterCount: 1
         maxBatchCount: 10000
-        table: 'ACMessages'
+        table: 'ACEvents'
         server: sql_server_resource.name
         database: sqldb_resource.name
         user: db_admin
@@ -240,7 +240,7 @@ resource streamingjobs_output_ACMessages_alias 'Microsoft.StreamAnalytics/stream
 }
 
 resource streamingjobs_output_GeneratorMessages_alias 'Microsoft.StreamAnalytics/streamingjobs/outputs@2021-10-01-preview' = {
-  parent: streamingjobs_motormessages_name_resource
+  parent: streamingjobs_name_resource
   name: '${db_name}-GeneratorEvents'
   properties: {
     datasource: {
