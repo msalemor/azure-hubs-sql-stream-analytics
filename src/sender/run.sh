@@ -1,0 +1,2 @@
+go build .
+EVENT_HUBS_STRING="Endpoint=sb://hubs-alemorhubs-demo-eus.servicebus.windows.net/;SharedAccessKeyName=demo-hub-send-listen;SharedAccessKey=3S4s57ka6cwDxWlvyoYweHWAbmNyyc4PwcEQZZKY50E=;EntityPath=demo-hub" EVENT_DELAY=25 EVENT_COUNT=50 BATCH=false VERBOSE=true go run .

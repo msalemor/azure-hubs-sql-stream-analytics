@@ -1,0 +1,11 @@
+POST http://localhost:8000/api/events HTTP/1.1
+content-type: application/json
+
+{ "count": 100, "delay": 100, "batch": false}
+
+###
+
+POST http://localhost:8000/api/events HTTP/1.1
+content-type: application/json
+
+{ "count": 200, "delay": 1, "batch": true}

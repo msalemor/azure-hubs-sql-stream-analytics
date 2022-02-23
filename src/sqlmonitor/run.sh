@@ -1,0 +1,1 @@
+DB_CONNECTION_STRING="server=sql-alemorhubs-demo-eus.database.windows.net;user id=dbadmin;password=Fuerte#123456;port=1433;database=hubdb;" VERBOSE=true go run .

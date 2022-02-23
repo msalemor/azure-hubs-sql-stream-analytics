@@ -1,8 +1,4 @@
 # GO files
-eventsapi
-receiver
-sender
-sqlmonitor
 *.dll
 *.so
 *.dylib

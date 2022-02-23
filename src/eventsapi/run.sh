@@ -1,0 +1,2 @@
+#EVENT_HUBS_STRING="Endpoint=sb://hubs-alemorhubs-demo-eus.servicebus.windows.net/;SharedAccessKeyName=demo-hub-send-listen;SharedAccessKey=3S4s57ka6cwDxWlvyoYweHWAbmNyyc4PwcEQZZKY50E=;EntityPath=demo-hub" VERBOSE=true go run .
+EVENT_HUBS_STRING="Endpoint=sb://hubs-alemorhubs-demo-eus.servicebus.windows.net/;SharedAccessKeyName=hub-alemorhubs-location1-write-policy;SharedAccessKey=JrflLGUPjlEnaDshnNE6opqwvttruQbF0x1Xq4vEZ/I=;EntityPath=hub-alemorhubs-location1" VERBOSE=true go run .
