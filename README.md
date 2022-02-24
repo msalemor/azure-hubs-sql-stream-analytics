@@ -90,7 +90,6 @@ anomalies AS (
     FROM allData a where a.type='MotorEvent' and a.revolutions=0
 )
 
--- ts,deviceId,eventType,property,value
 select 
   a.ts,a.deviceId,a.eventType,a.property,a.value
 into
@@ -268,7 +267,6 @@ func getRowTotals() {
 		ansi.HideCursor()
 		fmt.Print(ansi.CursorUp(3))
 		ansi.ShowCursor()
-		//fmt.Print(ansi.EraseLine(0))
 	}
 	wg.Done()
 }
@@ -330,15 +328,12 @@ func main() {
 	// register a message handler -- many can be registered
 	handlerID, err := processor.RegisterHandler(ctx,
 		func(c context.Context, e *eventhub.Event) error {
-			//fmt.Println(string(e.Data))
 			var anomaly common.AnomalyEvent
 			err = json.Unmarshal(e.Data, &anomaly)
 			if err == nil {
-				//msg := styles.Bold(colors.Red(anomaly.Value))
 				fmt.Println(colors.Green("Device ID:"), anomaly.DeviceID)
 				fmt.Println(colors.Green("Type:"), anomaly.EventType)
 				fmt.Println(colors.Yellow("Property:"), anomaly.Property)
-				//msg := fmt.Printf("%s %f", colors.Yellow("Value:"), anomaly.Value)
 				strValue := strconv.FormatFloat(anomaly.Value, 'f', 5, 64)
 				fmt.Println(colors.Yellow("Value:"), colors.Red(strValue))
 			}
