@@ -24,51 +24,53 @@ For the purposes of this demo, the generator code has been implemented using Azu
 
 #### Event Classes
 
-```c#
-public class BaseEvent
-{
-    public BaseEvent()
-    {
-        Ts = DateTime.UtcNow;
-    }
-
-    public string DeviceId { get; set; }
-    public string Type { get; set; }
-    public DateTime Ts { get; set; }
+```go
+type acEvent struct {
+	Ts                 time.Time `json:"ts"`
+	Type               string    `json:"type"`
+	DeviceID           string    `json:"deviceId"`
+	AirFlow            float64   `json:"airflow"`
+	AirTemperature     float64   `json:"airTemperature"`
+	CoolantTemperature float64   `json:"coolantTemperature"`
 }
 
-public class ACEvent : BaseEvent
-{
-    public ACMessage()
-    {
-        Type = typeof(ACMessage).Name;
-    }
-    public float CoolantTemperature { get; set; }
-    public float AirFlow { get; set; }
-    public float AirTemperature { get; set; }
+type generatorEvent struct {
+	Ts            time.Time `json:"ts"`
+	Type          string    `json:"type"`
+	DeviceID      string    `json:"deviceId"`
+	Hertz         float64   `json:"hertz"`
+	Amps          float64   `json:"amps"`
+	Voltage       float64   `json:"voltage"`
+	GasPercentage float64   `json:"gasPercentage"`
 }
 
-public class GeneratorEvent : BaseEvent
-{
-    public GeneratorEvent()
-    {
-        Type = typeof(GeneratorEvent).Name;
-    }
-    public float Hertz { get; set; }
-    public float Amps { get; set; }
-    public float Voltage { get; set; }
-    public float GasPercentage { get; set; }
-
+type motorEvent struct {
+	Ts          time.Time `json:"ts"`
+	Type        string    `json:"type"`
+	DeviceID    string    `json:"deviceId"`
+	Temperature float64   `json:"temperature"`
+	Revolutions float64   `json:"revolutions"`
 }
 
-public class MotorEvent : BaseEvent
-{
-    public MotorEvent()
-    {
-        Type = typeof(MotorEvent).Name;            
-    }
-    public float Temperature { get; set; }
-    public float Revolutions { get; set; }
+type EventsRequest struct {
+	Count int  `json:"count"`
+	Delay int  `json:"delay"`
+	Batch bool `json:"batch"`
+}
+
+type EventsResponse struct {
+	Message string `json:"message"`
+	Count   int    `json:"count"`
+	Delay   int    `json:"delay"`
+	Batch   bool   `json:"batch"`
+}
+
+type AnomalyEvent struct {
+	Ts        time.Time `json:"ts"`
+	DeviceID  string    `json:"deviceId"`
+	EventType string    `json:"eventType"`
+	Property  string    `json:"Property"`
+	Value     float64   `json:"Value"`
 }
 ```
 
