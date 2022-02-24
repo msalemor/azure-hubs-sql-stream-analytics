@@ -198,7 +198,7 @@ or
 
 ```{ "count": 100, "delay": 1, "batch": true}```
 
-### MSSQL Monitor
+### SQL Monitor
 
 The monitor application polls the SQL tables are reports the number of rows in the tables.
 
