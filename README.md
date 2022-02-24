@@ -142,6 +142,7 @@ type AnomalyEvent struct {
 }
 ```
 
+
 ### Sender - Emmiting Events to Event Hubs
 
 The sender application is an API server that can receive a message to emmit events via a POST event.
@@ -188,6 +189,14 @@ func GetRandomEvent() string {
 	}
 }
 ```
+
+The expected POST message can be:
+
+```{ "count": 50, "delay": 10, "batch": false}```
+
+or
+
+```{ "count": 100, "delay": 1, "batch": true}```
 
 ### MSSQL Monitor
 
