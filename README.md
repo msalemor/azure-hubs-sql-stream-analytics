@@ -286,9 +286,7 @@ func main() {
 	// Azure Storage account information
 	storageAccountName := common.MustPassEvn("STORAGE_NAME")
 	storageAccountKey := common.MustPassEvn("STORAGE_KEY")
-
-	// Azure Storage container to store leases and checkpoints
-	storageContainerName := "ephcontainer"
+	storageContainerName := common.MustPassEvn("STORAGE_CONTAINER")
 
 	// Azure Event Hub connection string
 	eventHubConnStr := common.MustPassEvn("EVENT_HUBS_STRING")
