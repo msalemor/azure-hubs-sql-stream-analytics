@@ -2,11 +2,11 @@
 
 ## Problem Statement
 
-A customer is sending messages of different types to Event Hubs and wants to save these messages to Azure SQL tables without having to write custom code.
+A customer is sending messages of different types to Event Hubs and wants to save these messages to Azure SQL tables without having to write custom code. He also wants to detect anomalies and process these anomalies as they are raised.
 
 ## Solution with Stream Analytics
 
-Azure Stream Analytics offers functionaltiy that allows messages to be read from Event Hubs, filter them, process them and save them to different destinations including Azure SQL tables.
+Azure Stream Analytics offers functionaltiy that allows messages to be read from Event Hubs, filter them, process them and save them to different destinations including Azure SQL tables and back to Event Hubs.
 
 ## Solution Diagram
 
