@@ -64,9 +64,13 @@ create table MotorEvents
 
 Azure SQL Tables:
 
-- ACMessages
-- GeneratorMessages
-- MotorMessages
+- ACEvents [hubdb-ACEvents]
+- GeneratorEvents [hubdb-GeneratorEvents]
+- MotorEvents [hubdb-MotorEvents]
+
+### Event Hub Output
+
+- Anomalies Hub [anomalies-hub]
 
 ### Stream Analytics Jobs
 
