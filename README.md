@@ -115,7 +115,7 @@ select a.deviceId,a.ts,a.temperature,a.revolutions
 
 ## Services
 
-### Common structres
+### Common structures
 
 For the purposes of this demo, the code has been implemented in GO and the different executables share these structures in common:
 
