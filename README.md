@@ -213,6 +213,33 @@ func GetRandomEvent() string {
 		return string(jsonBytes)
 	}
 }
+
+func processInBatch(eventRequest common.EventsRequest) error {
+	ctx, cancel := context.WithTimeout(context.Background(),
+		time.Duration(30)*time.Second)
+	defer cancel()
+
+	hub, err := eventhub.NewHubFromConnectionString(connectionString)
+	if err != nil {
+		logger.Error(err)
+		return err
+	}
+	if verbose {
+		logger.Debug(fmt.Sprintf("Sending %d messages in batch", eventRequest.Count))
+	}
+	var events []*eventhub.Event
+	for i := 1; i <= eventRequest.Count; i++ {
+		evt := common.GetRandomEvent()
+		events = append(events, eventhub.NewEventFromString(evt))
+		time.Sleep(1 * time.Millisecond)
+	}
+	hub.SendBatch(ctx, eventhub.NewEventBatchIterator(events...))
+	if verbose {
+		logger.Debug(fmt.Sprintf("Sent: %d messages in batch", eventRequest.Count))
+	}
+	wg.Done()
+	return nil
+}
 ```
 
 The expected POST message can be:
@@ -223,7 +250,7 @@ or
 
 ```{ "count": 100, "delay": 1, "batch": true}```
 
-### SQL Monitor
+### Monitor
 
 The monitor application polls the SQL tables are reports the number of rows in the tables.
 
