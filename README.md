@@ -76,7 +76,7 @@ Azure SQL Tables:
 
 > Note: One Stream Analytic jobs instance can process many jobs. The Stream Analytics query language can perform time based operations, aggregations, etc.
 
-```
+```sql
 with [allData] as (
     select * FROM [hub-ecloud1-location1]
 ),
