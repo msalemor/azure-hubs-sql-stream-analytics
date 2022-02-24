@@ -111,7 +111,6 @@ select a.deviceId,a.ts,a.hertz,a.amps,a.voltage,a.gasPercentage
 select a.deviceId,a.ts,a.temperature,a.revolutions
   into [hubdb-MotorEvents] from allData a 
   where type='MotorEvent';
-
 ````
 
 ## Services
