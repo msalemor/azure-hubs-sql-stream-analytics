@@ -16,13 +16,81 @@ Azure Stream Analytics offers functionaltiy that allows messages to be read from
 
 [Bicep template](deployment/main.bicep)
 
+## Azure SQL
+
+### Table Definitions
+
+```sql
+create table ACEvents
+(
+  Id int not null primary key identity,
+  DeviceId varchar(10) not null,
+  Ts DateTime not null,
+  CoolantTemperature float not null,
+  AirFlow float not null,
+  AirTemperature float not null
+)
+
+create table GeneratorEvents
+(
+  Id int not null primary key identity,
+  DeviceId varchar(10) not null,
+  Ts DateTime not null,
+  Hertz float not null,
+  Amps float not null,
+  Voltage float not null,
+  GasPercentage float not null
+)
+
+create table MotorEvents
+(
+  Id int not null primary key identity,
+  DeviceId varchar(10) not null,
+  Ts DateTime not null,
+  Temperature float not null,
+  Revolutions float not null
+)
+```
+
+## Stream Analytics Setup
+
+### Event Hubs Input
+
+- Azure Hubs [hub-ecloud1-location1]
+  - Hub [hub-location1]
+    - Consumer group [hub_location1_cg]
+
+### SQL Output
+
+Azure SQL Tables:
+
+- ACMessages
+- GeneratorMessages
+- MotorMessages
+
+### Stream Analytics Jobs
+
+> Note: One Stream Analytic jobs instance can process many jobs. The Stream Analytics query language can perform time based operations, aggregations, etc.
+
+```
+select a.deviceId,a.ts,a.coolantTemperature,a.airFlow,a.airTemperature
+  into [hubdb-ACEvents] from [hub-ecloud1-location1] a 
+  where type='ACEvent'
+
+select a.deviceId,a.ts,a.hertz,a.amps,a.voltage,a.gasPercentage
+  into [hubdb-GeneratorEvents] from [hub-ecloud1-location1] a 
+  where type='GeneratorEvent'
+  
+select a.deviceId,a.ts,a.temperature,a.revolutions
+  into [hubdb-MotorEvents] from [hub-ecloud1-location1] a 
+  where type='MotorEvent'
+````
+
 ## Services
 
-### Events Generator
+### Common structres
 
-For the purposes of this demo, the generator code has been implemented using Azure Functions with .NET Core 3.
-
-#### Event Classes
+For the purposes of this demo, the code has been implemented in GO and the different executables share these structures in common:
 
 ```go
 type acEvent struct {
@@ -74,7 +142,9 @@ type AnomalyEvent struct {
 }
 ```
 
-#### Emmiting Events to Event Hubs
+### Sender - Emmiting Events to Event Hubs
+
+The sender application is an API server that can receive a message to emmit events via a POST event.
 
 ```go
 func GetRandomEvent() string {
@@ -119,77 +189,9 @@ func GetRandomEvent() string {
 }
 ```
 
-### Azure SQL
-
-#### Table Definitions
-
-```sql
-create table ACEvents
-(
-  Id int not null primary key identity,
-  DeviceId varchar(10) not null,
-  Ts DateTime not null,
-  CoolantTemperature float not null,
-  AirFlow float not null,
-  AirTemperature float not null
-)
-
-create table GeneratorEvents
-(
-  Id int not null primary key identity,
-  DeviceId varchar(10) not null,
-  Ts DateTime not null,
-  Hertz float not null,
-  Amps float not null,
-  Voltage float not null,
-  GasPercentage float not null
-)
-
-create table MotorEvents
-(
-  Id int not null primary key identity,
-  DeviceId varchar(10) not null,
-  Ts DateTime not null,
-  Temperature float not null,
-  Revolutions float not null
-)
-```
-
-### Stream Analytics Setup
-
-#### Event Hubs Input
-
-- Azure Hubs [hub-ecloud1-location1]
-  - Hub [hub-location1]
-    - Consumer group [hub_location1_cg]
-
-#### SQL Output
-
-Azure SQL Tables:
-
-- ACMessages
-- GeneratorMessages
-- MotorMessages
-
-#### Stream Analytics Jobs
-
-> Note: One Stream Analytic jobs instance can process many jobs. The Stream Analytics query language can perform time based operations, aggregations, etc.
-
-```
-select a.deviceId,a.ts,a.coolantTemperature,a.airFlow,a.airTemperature
-  into [hubdb-ACEvents] from [hub-ecloud1-location1] a 
-  where type='ACEvent'
-
-select a.deviceId,a.ts,a.hertz,a.amps,a.voltage,a.gasPercentage
-  into [hubdb-GeneratorEvents] from [hub-ecloud1-location1] a 
-  where type='GeneratorEvent'
-  
-select a.deviceId,a.ts,a.temperature,a.revolutions
-  into [hubdb-MotorEvents] from [hub-ecloud1-location1] a 
-  where type='MotorEvent'
-```` 
-
 ### MSSQL Monitor
+
+The monitor application polls the SQL tables are reports the number of rows in the tables.
 
 ```go
 func getRowTotals() {
@@ -212,6 +214,8 @@ func getRowTotals() {
 ```
 
 ### Receiver
+
+The receiver application subscribes to the Anomaly hub and processes the messages as they are raised via a handler. The application is able to keep in state the last message received and avoids re-processing.
 
 ```go
 func main() {
