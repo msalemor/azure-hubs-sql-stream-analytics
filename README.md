@@ -74,50 +74,47 @@ public class MotorEvent : BaseEvent
 
 #### Emmiting Events to Event Hubs
 
-```c#
-var rn = (new Random());
-var rnd = rn.Next(1, 4);
-float temperature = rn.Next(20, 101);
-float revolutions = rn.Next(100, 301);
-float voltage = rn.Next(118, 122);
-float hertz = rn.Next(58, 62);
-float amps = rn.Next(20, 31);
-float gasPercentage = rn.Next(50, 101);
-float airTemperature = rn.Next(15,31);
-float airFlow = rn.Next(3, 6);
+```go
+func GetRandomEvent() string {
+	anomaly := getRandom(1, 6)
+	eventType := getRandom(1, 4)
 
-object obj = null;
+	airTemperature := float64(getRandom(600, 800)) / 10.0
+	airFlow := float64(getRandom(30, 40)) / 10.0
+	coolantTemperature := float64(getRandom(200, 400)) / 10.0
+	gasPercentage := float64(getRandom(1, 1000)) / 10.0
+	voltage := float64(getRandom(2300, 2450)) / 10.0
+	motorTemp := float64(getRandom(1800, 2000)) / 10.0
+	motorRevolutions := float64(getRandom(2000, 5000)) / 10.0
+	hertz := float64(getRandom(580, 650)) / 10.0
+	amps := float64(getRandom(150, 250)) / 10.0
 
-if (rnd == 1)
-{
-    obj = new MotorEvent { DeviceId = "1X100M", Revolutions = revolutions, Temperature = temperature };
+	if anomaly == RaiseAnomaly {
+		voltage = 0
+		motorTemp = 0
+		motorRevolutions = 0
+		gasPercentage = 10
+		airFlow = 0
+		airTemperature = 90
+	}
+
+	var event Event
+	if eventType == AC_VENT {
+		event = NewACEvent(airFlow, airTemperature, coolantTemperature)
+		jsonBytes, _ := json.Marshal(event)
+		return string(jsonBytes)
+
+	} else if eventType == GENERATOR_EVENT {
+		event = NewGeneratorEvent(hertz, amps, voltage, gasPercentage)
+		jsonBytes, _ := json.Marshal(event)
+		return string(jsonBytes)
+
+	} else {
+		event = NewMotorEvent(motorTemp, motorRevolutions)
+		jsonBytes, _ := json.Marshal(event)
+		return string(jsonBytes)
+	}
 }
-else if (rnd == 2)
-{
-
-    obj = new ACEvent { DeviceId = "2X100AC", CoolantTemperature=temperature, AirFlow=airFlow, AirTemperature=airTemperature};
-}
-else
-{
-    obj = new GeneratorEvent { DeviceId = "3X100G", Hertz=hertz, Amps=amps, Voltage= voltage, GasPercentage= gasPercentage };
-}
-
-// 
-var options = new JsonSerializerOptions
-{
-    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-};
-string jsonString = JsonSerializer.Serialize(obj,options);
-log.LogInformation($"Message: {jsonString}");
-// Create a producer client that you can use to send events to an event hub
-producerClient = new EventHubProducerClient(ConnectionString);
-
-// Create a batch of events 
-EventDataBatch eventBatch = await producerClient.CreateBatchAsync();
-if (eventBatch.TryAdd(new EventData(Encoding.UTF8.GetBytes(jsonString))))
-    await producerClient.SendAsync(eventBatch);
-else
-    throw new ApplicationException("Unable to create message");
 ```
 
 ### Azure SQL
