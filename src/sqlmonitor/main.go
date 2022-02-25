@@ -74,6 +74,7 @@ func getRowCount(table string) (int, error) {
 
 func getRowTotals() {
 
+	fmt.Print(ansi.HideCursor())
 	for {
 		acRows, _ := getRowCount("ACEvents")
 		genRows, _ := getRowCount("GeneratorEvents")
@@ -85,13 +86,12 @@ func getRowTotals() {
 		time.Sleep(250 * time.Millisecond)
 		ansi.HideCursor()
 		fmt.Print(ansi.CursorUp(3))
-		ansi.ShowCursor()
+		//ansi.ShowCursor()
 		//fmt.Print(ansi.EraseLine(0))
 	}
 	wg.Done()
 }
 
-// Server=tcp:sql-alemorhubs-demo-eus.database.windows.net,1433;Initial Catalog=hubdb;Persist Security Info=False;User ID=dbadmin;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
 func main() {
 
 	wg = new(sync.WaitGroup)
@@ -115,7 +115,8 @@ func main() {
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
-		<-c
+		<-c // Block until message received
+		fmt.Print(ansi.ShowCursor())
 		logger.Debug("Terminating program & closing database connection")
 		db.Close()
 		os.Exit(1)
