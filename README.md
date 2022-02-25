@@ -252,6 +252,12 @@ or
 
 ```{ "count": 100, "delay": 1, "batch": true}```
 
+Where:
+
+- Count: The number of messages to send
+- Delay: Delay between messages (ignored when in batch mode)
+- Batch: Send messages in batch or not
+
 ### Monitor
 
 The monitor application polls the SQL tables are reports the number of rows in the tables.
